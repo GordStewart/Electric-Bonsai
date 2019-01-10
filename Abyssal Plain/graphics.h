@@ -1,27 +1,29 @@
 #pragma once
 
 #include <SDL.h>
-#include "game.h"
+#include <SDL_image.h>
+#include <iostream>
 
-struct SDL_Rect;
 
-struct Graphics {
+class Graphics
+{
 
+
+public:
 	Graphics();
+	~Graphics();
 
+	SDL_Renderer* renderer;
+	SDL_Window* window;
+	
+	
+
+	bool init();
+	void close();
 
 	void clear();
 	void present();
-	void shutdown();
 
-	
-
-public:
-	SDL_Window* sdlWindow;
-	SDL_Renderer* sdlRenderer;
-
-private:
-	
-	
 
 };
+

@@ -1,32 +1,25 @@
 #pragma once
-#include "texture_manager.h"
-#include <SDL.h>
+
+#include "Graphics.h"
+#include "texturewrapper.h"
 
 class Game
 {
 
-public:
-	Game();
-	~Game();
-
-	//simply set the running variable to true
-	bool init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
-
-	void render();
-	void update();
-	void eventHandler();
-	void clean();
-
-	// a function to acess the private running variable
-	bool running() { return m_bRunning; }
-
 private:
+	bool running;
+	
+public:
+	
+	Game() : running{ false }
+	{
+		Game::eventLoop();
+	}
 
-	SDL_Window* m_pWindow;
-	SDL_Renderer* m_pRenderer;
+	~Game(){}
 
-	int m_currentFrame;
-	TextureManager m_textureManager;
 
-	bool m_bRunning;
+	void eventLoop();
+
 };
+

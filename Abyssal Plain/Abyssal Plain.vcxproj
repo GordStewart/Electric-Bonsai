@@ -18,6 +18,20 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="texturewrapper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="singleton.h" />
+    <ClInclude Include="texturewrapper.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{79A19473-BA9A-4C0F-B145-4108F1A4FF4B}</ProjectGuid>
@@ -77,6 +91,12 @@
     <IncludePath>C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2_image-2.0.4\include;C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2_image-2.0.4\lib\x86;C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2-2.0.9\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2_image-2.0.4\include;C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2_image-2.0.4\include;C:\Users\Gordon\Documents\Code\C++\dev_lib\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -96,6 +116,10 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,17 +149,10 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="texture_manager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="game.h" />
-    <ClInclude Include="texture_manager.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

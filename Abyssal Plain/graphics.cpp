@@ -1,49 +1,103 @@
-#include "graphics.h"
-#include "game.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
+#include "Graphics.h"
+
+	
 
 
+Graphics::Graphics() : 
+	renderer(),
+	window()
 
-Graphics::Graphics() {
-
-	sdlWindow = NULL;
-	sdlRenderer = NULL;
-
-	//Initialize SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
+{
+	//Start up SDL and create window
+	if (!init())
 	{
-		//if succeeded create the window
-		sdlWindow = SDL_CreateWindow("Abyssal Plain", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Game::kScreenWidth, Game::kScreenHeight, SDL_WINDOW_SHOWN);
-
-		//if window is successfully created, create the renderer
-		if (sdlWindow != 0)
-		{
-			sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, 0);
-
-			
-		}
+		printf("Failed to initialize!\n");
+	}
+	else
+	{
+		printf("Initialization!\n");
 	}
 }
 
 
-void Graphics::clear()
+Graphics::~Graphics()
 {
-	SDL_RenderClear(sdlRenderer); // clear the renderer to the drasw colour
+	close();
 }
 
-void Graphics::present()
+bool Graphics::init()
 {
-	SDL_RenderPresent(sdlRenderer); // draw to the screen
+	
+	//Initialization flag
+	bool success = true;
+
+	//Initialize SDL
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) // SDL_Init returns -1 if there is an error
+	{
+		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+		success = false;
+	}
+	else
+	{
+		
+		//if succeeded create the window
+		window = SDL_CreateWindow("Abyssal Plain", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_SHOWN);
+		if (window == NULL)
+		{
+			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+			success = false;
+		}
+		else
+		{
+			// If window was created succesfully, create the Vsynced renderer
+			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			if (renderer == NULL)
+			{
+				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+				success = false;
+			}
+			else
+			{
+				//Initialize renderer color
+				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
+
+				//Initialize PNG loading
+				int imgFlags = IMG_INIT_PNG;
+				if (!(IMG_Init(imgFlags) & imgFlags))
+				{
+					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+					success = false;
+				}
+			}
+		}
+
+	}
+
+	return success;
 }
 
-void Graphics::shutdown()
+void Graphics::close()
 {
-	SDL_DestroyRenderer(sdlRenderer);
-	SDL_DestroyWindow(sdlWindow);
-	sdlWindow = NULL;
-	sdlRenderer = NULL;
+	//Destroy window	
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	window = NULL;
+	renderer = NULL;
 
+	//Quit SDL subsystems
+	IMG_Quit();
 	SDL_Quit();
 }
+
+// Clear the Screen
+void Graphics::clear()
+{
+	SDL_RenderClear(renderer); // clear the renderer to the drasw colour
+}
+
+//Update the Screen
+void Graphics::present()
+{
+	SDL_RenderPresent(renderer); // draw to the screen
+}
+
