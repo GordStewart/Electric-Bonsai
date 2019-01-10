@@ -67,20 +67,20 @@ void TextureWrapper::free()
 	}
 }
 
-void TextureWrapper::render(std::string id, Graphics& graphics, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+void TextureWrapper::render(std::string id, Graphics& graphics, int x, int y, SDL_Rect* srcrect)
 {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
+	SDL_Rect dstrect = { x, y, mWidth, mHeight };
 
 	//Set clip rendering dimensions
-	if (clip != NULL)
+	if (srcrect != NULL)
 	{
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
+		dstrect.w = srcrect->w;
+		dstrect.h = srcrect->h;
 	}
 
 	//Render to screen
-	SDL_RenderCopyEx(graphics.renderer, m_textureMap[id], clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopy(graphics.renderer, m_textureMap[id], srcrect, &dstrect);
 }
 
 int TextureWrapper::getWidth()

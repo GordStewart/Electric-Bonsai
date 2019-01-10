@@ -25,7 +25,7 @@ void Game::eventLoop()
 		}
 
 		graphics.clear();
-		textureWrapper.render("player", graphics, 0, 0, 0, 0, 0);
+		textureWrapper.render("player", graphics, 0, 0);
 		graphics.present();
 
 	}
